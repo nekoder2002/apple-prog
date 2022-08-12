@@ -46,6 +46,13 @@ def imgs_denoise(imgs, method_name, ksize):
         for img in imgs:
             deno_imgs.append(cv2.GaussianBlur(img, ksize, 0))
     else:
-        raise Exception('no method name' + method_name + '.')
+        raise Exception('Denoise do not have method name:' + method_name + '.')
     return deno_imgs
 
+
+# 图片边缘检测 (Canny算法已进行Gaussian平滑去噪)
+def imgs_edge_detect(imgs, low_threshold, high_threshold):
+    edge_imgs = []
+    for img in imgs:
+        edge_imgs.append(cv2.Canny(img, low_threshold, high_threshold))
+    return edge_imgs
