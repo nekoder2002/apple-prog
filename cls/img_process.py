@@ -56,3 +56,14 @@ def imgs_edge_detect(imgs, low_threshold, high_threshold):
     for img in imgs:
         edge_imgs.append(cv2.Canny(img, low_threshold, high_threshold))
     return edge_imgs
+
+# 阈值分割
+def img_binarization(gray_imgs):
+    binary_imgs = []
+    for gray_img in gray_imgs:
+        ret, binary_img = cv2.threshold(gray_img, 60, 255, cv2.THRESH_BINARY)
+        binary_imgs.append(binary_img)
+        # 阈值函数：retval, dst = cv2.threshold(src, thresh, maxval, type)，返回值为retval, dst其中：
+        # 输入：src是灰度图像,thresh是起始阈值,maxval是最大值,type是定义如何处理数据与阈值的关系。
+        # 输出：dst：输出图像
+    return binary_imgs
