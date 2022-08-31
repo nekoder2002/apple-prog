@@ -38,7 +38,7 @@ def imgs_denoise(imgs, method_name, ksize):
     deno_imgs = []
     if method_name == 'MeanBlur':  # 均值滤波
         for img in imgs:
-            deno_imgs.append(cv2.blur(imgs, ksize))
+            deno_imgs.append(cv2.blur(img, ksize))
     elif method_name == 'MediumBlur':  # 中值滤波
         for img in imgs:
             deno_imgs.append(cv2.medianBlur(img, ksize))
@@ -57,11 +57,21 @@ def imgs_edge_detect(imgs, low_threshold, high_threshold):
         edge_imgs.append(cv2.Canny(img, low_threshold, high_threshold))
     return edge_imgs
 
-# 阈值分割
+
+# 二值化
 def img_binarization(gray_imgs):
     binary_imgs = []
+    bsize = 11
+    c = 5
     for gray_img in gray_imgs:
-        ret, binary_img = cv2.threshold(gray_img, 60, 255, cv2.THRESH_BINARY)
+        binary_img = cv2.adaptiveThreshold(
+            src=gray_img,
+            maxValue=255,
+            adaptiveMethod=cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            thresholdType=cv2.THRESH_BINARY_INV,
+            blockSize=bsize,
+            C=c
+        )
         binary_imgs.append(binary_img)
         # 阈值函数：retval, dst = cv2.threshold(src, thresh, maxval, type)，返回值为retval, dst其中：
         # 输入：src是灰度图像,thresh是起始阈值,maxval是最大值,type是定义如何处理数据与阈值的关系。

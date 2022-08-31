@@ -56,3 +56,17 @@ show_img_win(win_name, img)
 # 展示一组图片
 show_imgs(imgs)
 ```
+
+
+
+#### extract_feature.py
+
+特征提取相关函数
+
+```
+# 计算苹果的红色着色率
+clac_red_rate()
+
+# 计算苹果的圆率
+clac_round_rate(imgs)
+```
