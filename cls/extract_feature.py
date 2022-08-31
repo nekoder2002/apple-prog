@@ -6,7 +6,8 @@ import img_process as improc
 # 计算苹果的红色着色率
 def clac_red_rate():
     pass
-#############################更新
+
+#更新
 
 # 计算苹果的圆率
 def clac_round_rate(imgs):
