@@ -3,12 +3,6 @@ import numpy as np
 import img_process as improc
 
 
-# 计算苹果的红色着色率
-def clac_red_rate():
-    pass
-
-#更新
-
 # 计算苹果的圆率
 def clac_round_rate(imgs):
     gray_imgs = improc.imgs_graying(imgs)
@@ -17,7 +11,7 @@ def clac_round_rate(imgs):
     roundnesses = []
     count = len(binary_imgs)
     for i in range(count):
-        contours, hierarchy = cv2.findContours(binary_imgs[i], cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(binary_imgs[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         maxcontour = contours[0]
         for contour in contours:
             if cv2.contourArea(maxcontour) < cv2.contourArea(contour):
@@ -36,3 +30,35 @@ def clac_round_rate(imgs):
         contour_img = cv2.drawContours(imgs[i], [maxcontour], 0, (0, 255, 0), 2)
         contour_imgs.append(contour_img)
     return contour_imgs, roundnesses
+
+
+# 计算苹果的红色着色率
+def clac_red_rate(imgs):
+    red_rates = {}
+    gray_imgs = improc.imgs_graying(imgs)
+    binary_imgs = improc.img_binarization(gray_imgs)
+    count = len(binary_imgs)
+    for i in range(count):
+        contours, __ = cv2.findContours(binary_imgs[i], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        maxcontour = contours[0]
+        for contour in contours:
+            if cv2.contourArea(maxcontour) < cv2.contourArea(contour):
+                maxcontour = contour
+        # 轮廓区域由函数cv.contourArea()给出。
+        area = cv2.contourArea(maxcontour)
+
+        img_hsv = cv2.cvtColor(imgs[i], cv2.COLOR_BGR2HSV)
+        cv2.imshow("img_hsv", img_hsv)
+        cv2.waitKey()
+        img_hsv = img_hsv[:, :, 1]
+        cv2.imshow("img_hsv", img_hsv)
+        img_hsv[img_hsv < 50] = 0
+        img_hsv[img_hsv >= 50] = 1
+        cv2.imshow("img_hsv", img_hsv)
+        if area == 0:
+            red_rates[i] = 0
+        else:
+            red_rates[i] = np.sum(img_hsv) / area
+            if red_rates[i] > 1:
+                red_rates[i] = 1
+    return red_rates
