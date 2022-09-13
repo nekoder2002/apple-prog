@@ -17,7 +17,7 @@ def show_imgs(imgs):
     plt.figure(figsize=(36, row_num * 6))
     for i in range(total_num):
         plt.subplot(row_num, 6, i + 1)
-        plt.imshow(imgs[i], cmap='gray')
+        plt.imshow(imgs[i])
         plt.axis('off')
         plt.subplots_adjust(wspace=0.1, hspace=0.1)
     plt.show()
