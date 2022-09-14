@@ -10,7 +10,6 @@ upper_1 = np.array([10, 255, 255])
 lower_2 = np.array([156, 43, 46])
 upper_2 = np.array([180, 255, 255])
 
-
 # 计算苹果的圆率
 def clac_round_rate(imgs):
     gray_imgs = improc.imgs_graying(imgs)
